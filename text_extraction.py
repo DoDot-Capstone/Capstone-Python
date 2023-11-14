@@ -1,4 +1,5 @@
-answer = "'1','2','3','4','5'"
+answer = "'1','2','3','4','5' ㅁㄴㅇㅁㄴㄹㅁㄴㄹㅎㅁㄴㅇㅎㄴㅎㄹㅁㄴㅇㅁㄴㅇㅁㄴㄹㄴㅁㄹ"
+
 answerlist = [i for i, char in enumerate(answer) if char == "'"]  # answerlist는 모든 따옴표의 위치 인덱스를 담은 리스트
 result = ''
 
