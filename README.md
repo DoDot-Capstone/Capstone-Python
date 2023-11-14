@@ -1,8 +1,7 @@
 # Capstone-Python-Test
 
-## 파이썬 코드 테스트 프로젝트
-###
-### 필요한 모듈 목록
+### 파이썬 코드 테스트 프로젝트
+#### 필요한 모듈 목록
  - openai
  - flask
  - flask-login
