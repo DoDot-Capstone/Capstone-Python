@@ -3,3 +3,7 @@ https://scribblinganything.tistory.com/119 - url 관련
 
 https://velog.io/@rudnf003/Flask-Login-이용하여-로그인-기능-구현하기 - 로그인
 https://velog.io/@___pepper/Flask-Flask-Login을-이용한-login-기능-구현하기 - 로그인
+
+https://colinch4.github.io/2023-09-04/09-28-28-016798/ - 실시간 데이터 변경 관련 자료
+
+https://codeshack.io/login-system-python-flask-mysql/ - SQL 로그인 연동
