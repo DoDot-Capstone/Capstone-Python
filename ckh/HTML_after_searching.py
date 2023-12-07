@@ -1,5 +1,4 @@
 import sys
-import time
 import requests
 from bs4 import BeautifulSoup
 from selenium import webdriver
@@ -11,6 +10,8 @@ search_url = url + search
 # Selenium 설정
 options = Options()
 options.headless = True  # 브라우저를 화면에 표시하지 않음(존나게 잘보임)
+options.add_argument(f"--window-position=0,1000")  # x, y 좌표
+options.add_argument(f"--window-size=10,10")  # 너비, 높이
 
 # Selenium을 사용하여 브라우저를 열지 않고 페이지에 접근 (존나 잘열림)
 with webdriver.Chrome(options=options) as driver:
