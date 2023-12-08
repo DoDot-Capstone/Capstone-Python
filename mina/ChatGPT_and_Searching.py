@@ -17,6 +17,8 @@ def configure_webdriver():
     # 웹 드라이버를 설정하는 함수
     options = Options()
     options.headless = True
+    options.add_argument(f"--window-position=0,1000")  # x, y 좌표
+    options.add_argument(f"--window-size=10,10")  # 너비, 높이
     return webdriver.Chrome(options=options)
 
 
@@ -62,10 +64,15 @@ def search_mvn_repository(search):
     soup = BeautifulSoup(html, 'html.parser')
     results = soup.select('.im-title a')
 
-    libnames = [result.get_text() for idx, result in enumerate(results, 1) if idx % 2 != 0]
-    usages = [result.get_text() for idx, result in enumerate(results, 1) if idx % 2 == 0]
+    libs = []
 
-    return libnames, usages
+    for idx, result in enumerate(results, 1):
+        if idx % 2 != 0:
+            lib_name = result.get_text()
+            href_value = result['href']
+            libs.append((lib_name, href_value))
+
+    return libs
 
 
 def response(message):
@@ -75,7 +82,7 @@ def response(message):
         messages=[
             {"role": "system", "content": "프로그래밍할 때 필요한 라이브러리를 추천해줍니다."},
             {"role": "user", "content": message},
-            {"role": "user", "content": "프로그래밍할 때 필요한 라이브러리만 추천해줘야해, 무조건 라이브러리 이름에 해당하는 부분은 양 옆에 !!!를 넣어서 표시해줘."}
+            {"role": "user", "content": "프로그래밍할 때 필요한 라이브러리만 추천해줘야해, 무조건 라이브러리 이름에 해당하는 부분은 양 옆에 !!!를 넣어서 표시해줘. 코드 자료는 필요 없어"}
         ],
         temperature=0,
         max_tokens=256
@@ -93,10 +100,11 @@ def search_libraries_in_mvn(library_list):
     # MVN Repository에서 라이브러리 정보를 검색하고 출력하는 함수
     for library in library_list:
         print(f"검색 중인 라이브러리: {library}")
-        libnames, usages = search_mvn_repository(library)
-        print("라이브러리 이름:", libnames)
-        print("사용 되는 빈도:", usages)
-        print()
+        result = search_mvn_repository(library)
+
+        for data in result:
+            print(f"라이브러리 이름 : {data[0]}, 링크 : {data[1]}")
+            print()
 
 
 if __name__ == "__main__":
@@ -104,7 +112,14 @@ if __name__ == "__main__":
     message = input("물어봐: ")
     # GPT에 메시지 전달 및 라이브러리 추출
     result = response(message)
+
     library_list = extract_libraries(result)
 
-    # 라이브러리 검색 및 출력
-    search_libraries_in_mvn(library_list)
+    print("추천 라이브러리")
+    for name in library_list:
+        print(f" - {name}")
+
+    yesno = input("상세하게 보시겠습니까?")
+
+    if yesno.lower() == 'yes':
+        search_libraries_in_mvn(library_list)
